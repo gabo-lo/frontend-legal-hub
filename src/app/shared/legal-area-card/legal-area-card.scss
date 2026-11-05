@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.area-card {
+  text-decoration: none;
+}
+
+.card-icon-symbol {
+  width: 28px;
+  height: 28px;
+  font-size: 28px;
+}
+
+.featured-card {
+  background: linear-gradient(135deg, #d6bd99 0%, #c2a377 55%, #a98352 100%);
+  border-color: transparent;
+
+  .card-icon {
+    background-color: rgb(255 255 255 / 0.35);
+    color: #4a3520;
+  }
+
+  .card-subtitle {
+    color: rgb(43 33 24 / 0.75);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #d9c2a1 0%, #c8aa80 55%, #b08b58 100%);
+  }
+}

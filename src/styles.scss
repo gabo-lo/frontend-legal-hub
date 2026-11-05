@@ -1,1 +1,86 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use 'tailwindcss/theme';
+@use 'tailwindcss/utilities';
+
+@theme {
+  --color-cream: #f3ece2;
+  --color-cream-soft: #f8f2e9;
+  --color-sand: #d6bd99;
+  --color-sand-dark: #c2a377;
+  --color-sand-deep: #9c7a4a;
+  --color-surface: #fffcf7;
+  --color-ink: #2b2118;
+  --color-muted: #6e6155;
+  --color-line: #e4d8c8;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 1.75rem;
+  --shadow-card: 0 4px 18px rgb(80 60 40 / 0.06);
+  --shadow-card-hover: 0 18px 36px rgb(80 60 40 / 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$orange-palette,
+        tertiary: mat.$yellow-palette,
+      ),
+      density: 0,
+    )
+  );
+
+  --mat-sys-primary: #9c7a4a;
+  --mat-sys-on-surface: #2b2118;
+  --mat-sys-surface: #fffcf7;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

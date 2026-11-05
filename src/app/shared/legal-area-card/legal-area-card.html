@@ -1,0 +1,23 @@
+<a
+  [routerLink]="route()"
+  matRipple
+  class="area-card group relative flex h-full min-h-[190px] flex-col items-center justify-center gap-4 overflow-hidden rounded-[1.75rem] border border-line/60 bg-surface px-5 py-7 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sand-deep"
+  [class.featured-card]="featured()"
+>
+  @if (badge()) {
+    <span
+      class="absolute right-4 top-4 rounded-full bg-white/50 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-ink"
+    >
+      {{ badge() }}
+    </span>
+  }
+
+  <span
+    class="card-icon flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-sand/35 text-sand-deep"
+  >
+    <mat-icon class="card-icon-symbol">{{ icon() }}</mat-icon>
+  </span>
+
+  <span class="card-title text-base font-semibold leading-snug text-ink">{{ title() }}</span>
+  <span class="card-subtitle mt-auto text-xs leading-relaxed text-muted">{{ subtitle() }}</span>
+</a>

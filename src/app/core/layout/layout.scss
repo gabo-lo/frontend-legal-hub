@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+}
+
+.gavel-button {
+  background-color: var(--color-sand);
+  color: var(--color-ink);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+
+  &:hover {
+    background-color: var(--color-sand-dark);
+    color: #fff;
+  }
+}

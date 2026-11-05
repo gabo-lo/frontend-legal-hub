@@ -1,0 +1,39 @@
+<div class="min-h-dvh bg-cream">
+  <header class="sticky top-0 z-40 border-b border-line/70 bg-cream/80 backdrop-blur-md">
+    <div class="mx-auto flex h-20 max-w-[1180px] items-center gap-2 px-4 sm:gap-3 sm:px-6">
+      <a
+        routerLink="/"
+        class="flex shrink-0 items-center gap-2 text-ink"
+        aria-label="LegalHub, ir al inicio"
+      >
+        <span
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-sand/40 text-sand-deep"
+        >
+          <mat-icon class="logo-icon">shield</mat-icon>
+        </span>
+        <span class="text-lg font-bold tracking-tight sm:text-xl">LegalHub</span>
+      </a>
+
+      <div class="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+        <a
+          mat-icon-button
+          routerLink="/quiz"
+          matTooltip="Practicar"
+          aria-label="Practicar"
+          class="gavel-button"
+        >
+          <mat-icon>gavel</mat-icon>
+        </a>
+
+        <a
+          routerLink="/login"
+          class="whitespace-nowrap rounded-full bg-sand px-3.5 py-2 text-sm font-semibold text-ink shadow-sm transition hover:bg-sand-dark hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sand-deep sm:px-5 sm:py-2.5"
+        >
+          Iniciar sesión
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <router-outlet />
+</div>
