@@ -1,172 +1,117 @@
 <!-- CONTENEDOR DEL CHATBOT -->
 <div class="fixed bottom-6 right-6 z-[9999]">
-
   <!-- VENTANA DE CONVERSACIÓN -->
-  <div
-    *ngIf="abierto"
-    class="chat-window mb-4 flex flex-col w-[360px] h-[520px]
-           bg-white rounded-2xl shadow-2xl
-           border border-gray-200 overflow-hidden"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Asistente Jurídico Virtual"
-  >
-
-    <!-- ENCABEZADO -->
-    <div class="bg-ink text-white p-4">
-
-      <div class="flex items-center justify-between">
-
-        <div class="flex items-center gap-3">
-
-          <div class="w-11 h-11 bg-white/20 rounded-full
-                      flex items-center justify-center">
-
-            <i class="pi pi-building-columns text-xl"></i>
-
-          </div>
-
-          <div>
-            <h3 class="font-semibold text-base">
-              Asistente Jurídico
-            </h3>
-
-            <p class="text-xs text-gray-200">
-              Derecho Informático
-            </p>
-          </div>
-
-        </div>
-
-        <button
-          (click)="abrirChat()"
-          class="text-white hover:bg-white/20
-                 rounded-full w-8 h-8"
-          aria-label="Cerrar chat"
-        >
-          <i class="pi pi-times"></i>
-        </button>
-
-      </div>
-
-      <div class="flex items-center gap-2 mt-3 text-xs">
-
-        <span class="w-2 h-2 bg-green-400 rounded-full"></span>
-
-        <span>Asistente disponible</span>
-
-      </div>
-
-    </div>
-
-    <!-- MENSAJES -->
+  @if (abierto) {
     <div
-      #listaMensajes
-      class="flex-1 p-4 overflow-y-auto bg-cream-soft
-             space-y-4"
-      role="log"
-      aria-live="polite"
+      class="chat-window mb-4 flex flex-col w-[360px] h-[520px] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Asistente Jurídico Virtual"
     >
+      <!-- ENCABEZADO -->
+      <div class="bg-ink text-white p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 bg-white/20 rounded-full flex items-center justify-center">
+              <i class="pi pi-building-columns text-xl"></i>
+            </div>
 
-      <div
-        *ngFor="let mensaje of mensajes"
-        class="flex"
-        [ngClass]="mensaje.tipo === 'usuario'
-          ? 'justify-end'
-          : 'justify-start'"
-      >
+            <div>
+              <h3 class="font-semibold text-base">Asistente Jurídico</h3>
 
-        <div
-          class="max-w-[85%] p-3 rounded-2xl text-sm shadow-sm"
-          [ngClass]="mensaje.tipo === 'usuario'
-            ? 'bg-sand text-ink rounded-br-none'
-            : 'bg-white text-ink rounded-bl-none border border-line'"
-        >
+              <p class="text-xs text-gray-200">Derecho Informático</p>
+            </div>
+          </div>
 
-          <p class="whitespace-pre-line">
-            {{ mensaje.contenido }}
-          </p>
-
-          <span class="block text-[10px] text-gray-500 mt-2">
-            {{ mensaje.hora | date:'shortTime' }}
-          </span>
-
+          <button
+            (click)="abrirChat()"
+            class="text-white hover:bg-white/20 rounded-full w-8 h-8"
+            aria-label="Cerrar chat"
+          >
+            <i class="pi pi-times"></i>
+          </button>
         </div>
 
+        <div class="flex items-center gap-2 mt-3 text-xs">
+          <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+
+          <span>Asistente disponible</span>
+        </div>
       </div>
 
-      <!-- INDICADOR DE ESCRITURA -->
-      <div *ngIf="escribiendo"
-           class="text-xs text-gray-500">
+      <!-- MENSAJES -->
+      <div
+        #listaMensajes
+        class="flex-1 p-4 overflow-y-auto bg-cream-soft space-y-4"
+        role="log"
+        aria-live="polite"
+      >
+        @for (mensaje of mensajes; track $index) {
+          <div
+            class="flex"
+            [ngClass]="mensaje.tipo === 'usuario' ? 'justify-end' : 'justify-start'"
+          >
+            <div
+              class="max-w-[85%] p-3 rounded-2xl text-sm shadow-sm"
+              [ngClass]="
+                mensaje.tipo === 'usuario'
+                  ? 'bg-sand text-ink rounded-br-none'
+                  : 'bg-white text-ink rounded-bl-none border border-line'
+              "
+            >
+              <p class="whitespace-pre-line">
+                {{ mensaje.contenido }}
+              </p>
 
-        El asistente está escribiendo...
+              <span class="block text-[10px] text-gray-500 mt-2">
+                {{ mensaje.hora | date: 'shortTime' }}
+              </span>
+            </div>
+          </div>
+        }
 
+        <!-- INDICADOR DE ESCRITURA -->
+        @if (escribiendo) {
+          <div class="text-xs text-gray-500">El asistente está escribiendo...</div>
+        }
       </div>
 
+      <!-- CAMPO DE ESCRITURA -->
+      <div class="p-3 bg-white border-t border-gray-200">
+        <div class="flex items-center gap-2">
+          <input
+            #inputPregunta
+            type="text"
+            [(ngModel)]="pregunta"
+            (keydown.enter)="enviarMensaje()"
+            placeholder="Escribe tu pregunta..."
+            aria-label="Escribe tu pregunta"
+            class="flex-1 min-w-0 border border-gray-300 rounded-xl px-3 py-3 text-sm outline-none focus:ring-2 focus:ring-sand"
+          />
+
+          <button
+            (click)="enviarMensaje()"
+            [disabled]="!pregunta.trim() || escribiendo"
+            class="bg-ink text-white w-11 h-11 rounded-xl hover:bg-sand-deep disabled:opacity-40"
+            aria-label="Enviar mensaje"
+          >
+            <i class="pi pi-send"></i>
+          </button>
+        </div>
+
+        <p class="text-[10px] text-gray-400 text-center mt-2">Asistente académico de Derecho</p>
+      </div>
     </div>
-
-    <!-- CAMPO DE ESCRITURA -->
-    <div class="p-3 bg-white border-t border-gray-200">
-
-      <div class="flex items-center gap-2">
-
-        <input
-          #inputPregunta
-          type="text"
-          [(ngModel)]="pregunta"
-          (keydown.enter)="enviarMensaje()"
-          placeholder="Escribe tu pregunta..."
-          aria-label="Escribe tu pregunta"
-          class="flex-1 min-w-0 border border-gray-300
-                 rounded-xl px-3 py-3 text-sm
-                 outline-none focus:ring-2
-                 focus:ring-sand"
-        />
-
-        <button
-          (click)="enviarMensaje()"
-          [disabled]="!pregunta.trim() || escribiendo"
-          class="bg-ink text-white
-                 w-11 h-11 rounded-xl
-                 hover:bg-sand-deep
-                 disabled:opacity-40"
-          aria-label="Enviar mensaje"
-        >
-
-          <i class="pi pi-send"></i>
-
-        </button>
-
-      </div>
-
-      <p class="text-[10px] text-gray-400 text-center mt-2">
-        Asistente académico de Derecho
-      </p>
-
-    </div>
-
-  </div>
+  }
 
   <!-- BOTÓN FLOTANTE -->
   <div class="flex justify-end">
-
     <button
       (click)="abrirChat()"
-      class="w-16 h-16 rounded-full
-             bg-ink text-white
-             shadow-xl hover:scale-105
-             transition-all duration-200
-             flex items-center justify-center"
+      class="w-16 h-16 rounded-full bg-ink text-white shadow-xl hover:scale-105 transition-all duration-200 flex items-center justify-center"
       aria-label="Abrir asistente jurídico"
     >
-
-      <i
-        [ngClass]="abierto ? 'pi pi-times' : 'pi pi-comments'"
-        class="text-2xl"
-      ></i>
-
+      <i [ngClass]="abierto ? 'pi pi-times' : 'pi pi-comments'" class="text-2xl"></i>
     </button>
-
   </div>
-
 </div>
